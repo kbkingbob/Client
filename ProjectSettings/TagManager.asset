@@ -39,15 +39,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Fortground
-    uniqueID: 1606249199
-    locked: 0
-  - name: Carton
-    uniqueID: 3420590853
+  - name: Background
+    uniqueID: 978112621
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
-    uniqueID: 978112621
+  - name: Enemy
+    uniqueID: 3752660859
+    locked: 0
+  - name: Carton
+    uniqueID: 3420590853
+    locked: 0
+  - name: Fortground
+    uniqueID: 1606249199
     locked: 0
