@@ -4,31 +4,38 @@ using UnityEngine;
 
 public class CloneByClick : MonoBehaviour
 {
-    public float x, y, z;
+    public string key;
     public GameObject prefab, obj;
+    public float x, y, z;
     static float timeSpend = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         timeSpend += UnityEngine.Time.deltaTime;
-    }
-
-    void OnMouseDown()
+    } 
+    void OnGUI()
     {
-        float a = GameObject.Find("Main Camera").transform.localPosition.x;
-        float b = GameObject.Find("Main Camera").transform.localPosition.y;
-        float c = GameObject.Find("Main Camera").transform.localPosition.z;
-        if (Input.GetMouseButtonDown(0) && timeSpend > 0.8)
+        if (Input.anyKeyDown)
         {
-            obj = Instantiate(prefab) as GameObject;
-            obj.transform.position = new Vector3(a + x, y, z);
-            timeSpend = 0.0f;
+            Event e = Event.current;
+            if (e.isKey)
+            {
+                if (string.Equals(e.keyCode.ToString(), key) && timeSpend > 0.1)
+                {
+                    float a = GameObject.Find("Grid").transform.localPosition.x;
+                    float b = GameObject.Find("Grid").transform.localPosition.y;
+                    float c = GameObject.Find("Grid").transform.localPosition.z;
+                    obj = Instantiate(prefab) as GameObject;
+                    obj.transform.position = new Vector3(a + x, y, z);
+                    timeSpend = 0.0f;
+                }
+            }
         }
-    }
+    } 
+
 }
