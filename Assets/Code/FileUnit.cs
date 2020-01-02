@@ -30,6 +30,11 @@ public class FileUnit : MonoBehaviour
         if (Number != ChkNumber) return false;
         return true;
     }
+    string getURL()
+    {
+        string root = @"./";
+        return root;
+    }
     void Start()
     {
         CheckFile(_FilePath);
