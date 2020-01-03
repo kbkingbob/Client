@@ -16,13 +16,14 @@ public class PlayerController : MonoBehaviour
     BoxCollider2D mybody;
     SpriteRenderer sprite;
 
+    public Camera cam;
     public float defaultX;//默认初始位置
     public float lowPositionY;//最低位置
     public float highPositionY;//最高位置
     //public float transitionPositionY;
     private Vector2 lowPosition;
     private Vector2 highPosition;
-    //private Vector2 transitionPosition;
+    private Vector2 Position;
 
     enum STATUS { RUN, ATTACK, JUMP, DOWN, DEAD }
     public int kind = (int)STATUS.RUN;//行动状态
@@ -53,10 +54,10 @@ public class PlayerController : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         mybody = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
-        Debug.Log(rbody.name);
+        //Debug.Log(rbody.name);
         playerAnimator = GetComponent<Animator>();
-        //lowPosition = new Vector2(defaultX, lowPositionY);
-        //highPosition = new Vector2(defaultX, highPositionY);
+        lowPosition = new Vector2(defaultX, lowPositionY);
+        highPosition = new Vector2(defaultX, highPositionY);
         //transitionPosition = new Vector2(defaultX, transitionPositionY);
         rbody.MovePosition(new Vector2(defaultX, lowPositionY));
     }
@@ -90,8 +91,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void setRbodyX(float x)
+    {
+        if (jump)
+        {
+            Position.Set(x, highPositionY);
+        }
+        else
+        {
+            Position.Set(x, lowPositionY);
+        }
+        rbody.MovePosition(Position);
+        Debug.Log(rbody.position.x);
+    }
+
+    public float getRbodyX()
+    {
+        return rbody.position.x;
+    }
+
     // Update is called once per frame
-    void CloseAllStatus()
+    private void CloseAllStatus()
     {
         jump = false;
         atking = false;
@@ -99,14 +119,15 @@ public class PlayerController : MonoBehaviour
         atkingTimer = downTimer = 0;
     }
 
-    void Control()
+    private void Control()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
             CloseAllStatus();
             jump = true;
             floatingTimer = floatingTime;
-            rbody.MovePosition(new Vector2(rbody.transform.position.x, highPositionY));
+            highPosition.Set(rbody.position.x, highPositionY);
+            rbody.MovePosition(highPosition);
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
@@ -119,8 +140,10 @@ public class PlayerController : MonoBehaviour
             CloseAllStatus();
             down = true;
             downTimer = downTime;
-            rbody.MovePosition(new Vector2(rbody.transform.position.x, lowPositionY));
+            lowPosition.Set(rbody.position.x, lowPositionY);
+            rbody.MovePosition(lowPosition);
         }
+        
     }
 
     private void ChangeToDown()
@@ -159,7 +182,8 @@ public class PlayerController : MonoBehaviour
         if (floatingTimer <= 0)
         {
             jump = false;
-            rbody.MovePosition(new Vector2(rbody.transform.position.x, lowPositionY));
+            lowPosition.Set(rbody.position.x, lowPositionY);
+            rbody.MovePosition(lowPosition);
         }
         if (jump)
         {
@@ -187,14 +211,14 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         Control();
-
+        Change();
+        playerAnimator.SetInteger("kind", kind);
     }
     void Update()
     {
         
-        Change();
-        playerAnimator.SetInteger("kind", kind);
         if (damaged)
         {
             sprite.color = flashColour;
