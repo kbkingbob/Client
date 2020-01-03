@@ -7,37 +7,29 @@ using UnityEngine.UI;
 //
 
 
-
-
 public class PlayerController : MonoBehaviour
 {
     //private float speed = 3f;//移动速度
     //private float vspeed = 0;//垂直方向的速度
     //private float gr = 0.6f;//重力加速度
-    public float lowPosition_y;
-    public float highPosition_y;
-    public float transitionPosition_y;
-    public float default_x;
     Rigidbody2D rbody;
     BoxCollider2D mybody;
     SpriteRenderer sprite;
-    public int kind = 0;//行动状态
-    /*
-     0 移动
-     1 攻击
-     2 跳跃
-     3 下蹲
-     4 死亡
-         */
+
+    public float defaultX;//默认初始位置
+    public float lowPositionY;//最低位置
+    public float highPositionY;//最高位置
+    //public float transitionPositionY;
+    private Vector2 lowPosition;
+    private Vector2 highPosition;
+    //private Vector2 transitionPosition;
+
+    enum STATUS { RUN, ATTACK, JUMP, DOWN, DEAD }
+    public int kind = (int)STATUS.RUN;//行动状态
+
     private bool jump = false;
-    private int downlast = 0;
-    private const int downlasttime = 30;
-    private const int top_jump_dis = 15;
-    private bool can_atk = true;
     private bool down = false;
     private bool atking = false;//是否正在攻击
-    private int atklast = 0;//剩余攻击时间
-    private const int atklasttime = 30;
 
     private bool sp_atking = false;//连续攻击
     private int sp_atklat = 0;//可以持续连续攻击的时间
@@ -48,47 +40,45 @@ public class PlayerController : MonoBehaviour
     private float flashSpeed = 5.0f;
 
     public float floatingTime;
-    private float floatingTimer;
+    public float atkingTime;
+    public float downTime;
+    private float floatingTimer = 0;
+    private float atkingTimer = 0;
+    private float downTimer = 0;
 
     private Animator playerAnimator = null;// 动画控制器
-    // Start is called before the first frame update
+
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
         mybody = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
-        Vector2 lowPosition = new Vector2(default_x, lowPosition_y);
-        //Vector2 highPosition = new Vector2(default_x, highPosition_y);
-        rbody.MovePosition(lowPosition);
+        Debug.Log(rbody.name);
+        playerAnimator = GetComponent<Animator>();
+        //lowPosition = new Vector2(defaultX, lowPositionY);
+        //highPosition = new Vector2(defaultX, highPositionY);
+        //transitionPosition = new Vector2(defaultX, transitionPositionY);
+        rbody.MovePosition(new Vector2(defaultX, lowPositionY));
     }
-    public bool is_atking()
-    {
-        return sp_atking | atking;
-    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("扣血");
         if (other.tag == "Fire")
         {
-            // Debug.Log("扣血");
-            //GameController.instance.Now_hurt();
             damaged = true;
             GameController.instance.UpdataAndDisplayHp(-1);
         }
         else if (other.tag == "Food")
         {
-            //  Debug.Log("吃到了苹果");
             GameController.instance.UpdataAndDisplaySc(10);
         }
         else if (other.tag == "Enemy")
         {
             if (atking == false && sp_atking == false)
             {
-                // GameController.instance.Now_hurt();
                 damaged = true;
                 GameController.instance.UpdataAndDisplayHp(-1);
             }
-
         }
         else if (other.tag == "Goods")
         {
@@ -99,151 +89,120 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
     // Update is called once per frame
     void CloseAllStatus()
     {
         jump = false;
         atking = false;
         down = false;
-        return;
+        atkingTimer = downTimer = 0;
     }
+
     void Control()
     {
-        Vector2 lowPosition = new Vector2(default_x, lowPosition_y);
-        Vector2 highPosition = new Vector2(default_x, highPosition_y);
-
-        //Vector2 position = rbody.position;
         if (Input.GetKeyDown(KeyCode.W))
         {
-            //if (jump == false && position.y <= -2.0f)
-            //{
-            //    vspeed = -top_jump_dis;
-            //    jump = true;
-            //}
+            CloseAllStatus();
             jump = true;
-            rbody.MovePosition(highPosition);
             floatingTimer = floatingTime;
+            rbody.MovePosition(new Vector2(rbody.transform.position.x, highPositionY));
         }
-        if (Input.GetKeyDown(KeyCode.J))//&& can_atk == true
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            //can_atk = false;
+            CloseAllStatus();
             atking = true;
-            atklast = atklasttime;
+            atkingTimer = atkingTime;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
+            CloseAllStatus();
             down = true;
-            downlast = downlasttime;
-            //vspeed = 60;
-            rbody.MovePosition(lowPosition);
+            downTimer = downTime;
+            rbody.MovePosition(new Vector2(rbody.transform.position.x, lowPositionY));
         }
-
     }
-    void Change()
+
+    private void ChangeToDown()
     {
-        //碰撞盒缩小
-        Vector2 position = rbody.position;
-        if (down == true)
+        if (downTimer <= 0)
+            down = false;
+        if (down)
         {
+            kind = (int)STATUS.DOWN;
             Vector2 PP = new Vector2(0.0001f, 0.0001f);
             mybody.size = PP;
         }
         else
         {
+            downTimer = 0;
             Vector2 PP = new Vector2(1, 1);
             mybody.size = PP;
         }
-
-        if (atklast == 0)
-        {
-            //can_atk = true;
+    }
+    private void ChangeToAttack()
+    {
+        if (atkingTimer <= 0)
             atking = false;
-        }
-        if (downlast == 0)
+        if (atking)
         {
-            down = false;
-
+            kind = (int)STATUS.ATTACK;
         }
-        if (atklast > 0)
-            atklast--;
-        if (downlast > 0)
-            downlast--;
-        if (Mathf.Abs(position.y - lowPosition_y) <= 0.000001f)
-            jump = false;//可以跳跃
-        else if (down == false)
+        else
         {
-            jump = true;
-        }
-        kind = 0;
-        if (jump == true)
-            kind = 2;
-        if (atking == true)
-            kind = 1;
-        if (down == true)
-            kind = 3;
-        if (Mathf.Abs(position.y - highPosition_y) <= 0.000001f && kind == 3)
-        {
-            if (atking)
-                kind = 1;
-            else
-                kind = 2;
+            atkingTimer = 0;
         }
 
     }
-    /*
- 0 移动
- 1 攻击
- 2 跳跃
- 3 下蹲
- 4 死亡
-     */
-    void Update()
+    private void ChangeToJump()
     {
-        Vector2 lowPosition = new Vector2(default_x, lowPosition_y);
-        Vector2 highPosition = new Vector2(default_x, highPosition_y);
-        Vector2 transitionPosition = new Vector2(default_x, transitionPosition_y);
-        playerAnimator = GetComponent<Animator>();
-        Vector2 position = rbody.position;
-        playerAnimator.SetInteger("kind", kind);
-        Control();
-        Change();
-
+        if (floatingTimer <= 0)
+        {
+            jump = false;
+            rbody.MovePosition(new Vector2(rbody.transform.position.x, lowPositionY));
+        }
         if (jump)
         {
-            floatingTimer -= Time.deltaTime;
-            if (floatingTimer <= 0)
-            {
-                //float n = (float)100.0;
-                //float delta_y = ( highPosition_y - lowPosition_y ) / n;
-                //for (float i = 0; i < n; i++)
-                //{
-                //    rbody.MovePosition(new Vector2(default_x, highPosition_y - i * delta_y));
-                //}
-                rbody.MovePosition(lowPosition);
-                jump = false;
-                down = false;
-                //rbody.MovePosition(lowPosition);
-
-            }
+            kind = (int)STATUS.JUMP;
         }
+        else
+        {
+            floatingTimer = 0;
+        }
+    }
+    private void Change()
+    {
+        kind = 0;
+        ChangeToAttack();
+        ChangeToDown();
+        ChangeToJump();
+        
+        if (atking)
+            atkingTimer -= Time.deltaTime;
+        if (down)
+            downTimer -= Time.deltaTime;
+        if(jump)
+            floatingTimer -= Time.deltaTime;
+    }
 
-        //int sptop = 60;
-        //vspeed = Mathf.Clamp(vspeed+gr,-sptop,sptop);
-        //position.y -= vspeed * Time.deltaTime;
-        //if (position.y <= -2.0f)
-        //    position.y = -2.0f;
-        //rbody.MovePosition(position);
+    private void FixedUpdate()
+    {
+        Control();
+
+    }
+    void Update()
+    {
+        
+        Change();
+        playerAnimator.SetInteger("kind", kind);
         if (damaged)
         {
             sprite.color = flashColour;
         }
         else
         {
-            //sprite.color = Color.Lerp(sprite.color, Color.clear, flashSpeed * Time.deltaTime);
             sprite.color = Write;
         }
         damaged = false;
-
-
     }
 }

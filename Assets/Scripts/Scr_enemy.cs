@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Scr_enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     public float hspeed = 5f;//垂直方向的速度
-    // Start is called before the first frame update
+
     void Start()
     {
 
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -20,6 +21,7 @@ public class Scr_enemy : MonoBehaviour
                 Destroy(this.gameObject);
         }
     }
+
     // Update is called once per frame
     void Update()
     {
