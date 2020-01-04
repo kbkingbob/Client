@@ -62,6 +62,11 @@ public class PlayerController : MonoBehaviour
         rbody.MovePosition(new Vector2(defaultX, lowPositionY));
     }
 
+    public Vector2 getPosition()
+    {
+        return rbody.position;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Fire")

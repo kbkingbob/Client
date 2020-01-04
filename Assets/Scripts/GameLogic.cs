@@ -5,11 +5,15 @@ using UnityEngine;
 public class GameLogic : MonoBehaviour
 {
     public PlayerController player;
+    private int HP = 100;
+    private int SC = 0;
     // Start is called before the first frame update
     void Start()
     {
         
     }
+
+
 
     // Update is called once per frame
     void Update()

@@ -74,6 +74,7 @@ public class AudioPlayer : MonoBehaviour
 
     public float getAudioSourceTime()
     {
+        if (!running) return 0;
         if (flag)
         {
             return audioSource.time;
