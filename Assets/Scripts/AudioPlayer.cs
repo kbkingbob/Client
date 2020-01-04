@@ -5,6 +5,7 @@ using System.Collections;
 //using NAudio;
 //using NAudio.Wave;
 using System.IO;
+using System.Threading;
 
 [RequireComponent(typeof(AudioSource))]
 
@@ -26,36 +27,33 @@ public class AudioPlayer : MonoBehaviour
     private int clipMinute;
     private int clipSecond;
     private bool flag = false;
+    private bool running = false;
+    int cnt = 0;
 
     public void Start()
     {
-        flag = true;
-        changefile = "";
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = audioClip;
-        //audioName.text = audioClip.name;
         clipHour = (int)audioSource.clip.length / 3600;
         clipMinute = (int)(audioSource.clip.length - clipHour * 3600) / 60;
         clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
-        audioSource.Play();
+
+        StartCoroutine(LoadMusic(changefile));
+        sstart();
+        changefile = "";
     }
-    void Update()
+
+    void FixedUpdate()
     {
-        //Debug.Log(audioSource.time + " " + audioClip.length);
-        
+        if (!running) return;
         if (flag)
         {
             if (audioSource.time >= audioClip.length - 0.5f)
             {
                 flag = false;
-            }else
+            }
+            else
                 UpdateSliderValue();
-        }
-        if (changefile.Length != 0)
-        {
-            StartCoroutine(LoadMusic(changefile, "E:\\github\\Client\\Assets\\music"));
-            flag = true;
-            sstart();
         }
     }
 
@@ -67,6 +65,7 @@ public class AudioPlayer : MonoBehaviour
         currentSecond = (int)( audioSource.time - currentHour * 3600 - currentMinute * 60 );
         audioTimeSlider.value = audioSource.time / audioClip.length;
     }
+
     //================通过滑动条改变音乐时间
     private void SetAudioTimeBySliderValueChange()
     {
@@ -82,40 +81,50 @@ public class AudioPlayer : MonoBehaviour
         return -1;
     }
 
-    private void AudioPause()
+    public void AudioPause()
     {
         audioSource.Pause();
     }
     
-    private void AudioPlay()
+    public void AudioPlay()
     {
+        running = true;
+        flag = true;
         audioSource.Play();
     }
 
-    private void AudioStop()
+    public void AudioStop()
     {
         audioSource.Stop();
     }
 
     void sstart()
     {
-        changefile = "";
-        audioSource = GetComponent<AudioSource>();
-        audioSource.clip = audioClip;
-        //audioName.text = audioClip.name;
+        ////================= 事件监听
         clipHour = (int)audioSource.clip.length / 3600;
         clipMinute = (int)(audioSource.clip.length - clipHour * 3600) / 60;
         clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
-        audioSource.Play();
-        //================= 事件监听
-       
+        changefile = "";
     }
 
-    private IEnumerator LoadMusic(string filepath, string savepath)//filepath:mp3的路径，savepath：转换成wav的路径
+    private IEnumerator LoadMusic(string filepath)
     {
-        var www = new WWW("file://" + filepath);
-        yield return www;
-        audioClip = www.GetAudioClip();
-        Debug.Log(audioClip);
+        filepath = "file:///" + filepath;
+        Debug.Log(filepath);
+        using (var uwr = UnityWebRequestMultimedia.GetAudioClip(filepath, AudioType.WAV))
+        {
+            yield return uwr.SendWebRequest();
+            if (uwr.isNetworkError)
+            {
+                Debug.LogError(uwr.error);
+            }
+            else
+            {
+                AudioClip clip = DownloadHandlerAudioClip.GetContent(uwr);
+                Debug.Log(clip);
+                audioClip = clip;
+                audioSource.clip = clip;
+            }
+        }
     }
 }

@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
             Position.Set(x, lowPositionY);
         }
         rbody.MovePosition(Position);
-        Debug.Log(rbody.position.x);
+        //Debug.Log(rbody.position.x);
     }
 
     public float getRbodyX()
@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
+            Debug.Log("W");
             CloseAllStatus();
             jump = true;
             floatingTimer = floatingTime;
@@ -131,12 +132,14 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
+            Debug.Log("J");
             CloseAllStatus();
             atking = true;
             atkingTimer = atkingTime;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
+            Debug.Log("S");
             CloseAllStatus();
             down = true;
             downTimer = downTime;
@@ -211,14 +214,12 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
         Control();
         Change();
         playerAnimator.SetInteger("kind", kind);
     }
     void Update()
     {
-        
         if (damaged)
         {
             sprite.color = flashColour;
