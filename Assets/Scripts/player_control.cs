@@ -100,6 +100,13 @@ public class player_control : MonoBehaviour
         }
     }
     // Update is called once per frame
+    void CloseAllStatus()
+    {
+        jump = false;
+        atking = false;
+        down = false;
+        return;
+    }
     void Control()
     {
         Vector2 lowPosition = new Vector2(default_x, lowPosition_y);
@@ -117,9 +124,9 @@ public class player_control : MonoBehaviour
             rbody.MovePosition(highPosition);
             floatingTimer = floatingTime;
         }
-        if ( Input.GetKeyDown(KeyCode.J)&&!jump)//&& can_atk == true
+        if ( Input.GetKeyDown(KeyCode.J))//&& can_atk == true
         {
-            can_atk = false;
+            //can_atk = false;
             atking = true;
             atklast = atklasttime;
         }
