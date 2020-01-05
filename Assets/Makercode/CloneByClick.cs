@@ -23,7 +23,7 @@ public class CloneByClick : MonoBehaviour
         if (Input.anyKeyDown)
         {
             Event e = Event.current;
-            if (e.isKey)
+            if (e.isKey && GameObject.Find("AudioPanel").GetComponent<MakerAudioPlayer>().audioSource.isPlaying)
             {
                 if (string.Equals(e.keyCode.ToString(), key) && timeSpend > 0.1)
                 {
@@ -32,6 +32,7 @@ public class CloneByClick : MonoBehaviour
                     float c = GameObject.Find("Grid").transform.localPosition.z;
                     obj = Instantiate(prefab) as GameObject;
                     obj.transform.position = new Vector3(a + x, y, z);
+                    obj.GetComponent<InCamera>().clone = true;
                     timeSpend = 0.0f;
                 }
             }
