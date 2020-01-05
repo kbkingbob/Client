@@ -11,18 +11,14 @@ using System.Threading;
 
 public class AudioPlayer : MonoBehaviour
 {
-    //==================组件
     public AudioClip audioClip;
-    //public Text audioTime;
-    //public Text audioName;
     public Slider audioTimeSlider;
     public AudioSource audioSource;
-    public string changefile;
-    //====================当前时间/总时间
+    public string changefile;       //切歌歌曲路径
+
     private int currentHour;
     private int currentMinute;
     private int currentSecond;
-        //===总
     private int clipHour;
     private int clipMinute;
     private int clipSecond;
@@ -39,13 +35,20 @@ public class AudioPlayer : MonoBehaviour
         clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
 
         StartCoroutine(LoadMusic(changefile));
-        sstart();
+        clipHour = (int)audioSource.clip.length / 3600;
+        clipMinute = (int)(audioSource.clip.length - clipHour * 3600) / 60;
+        clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
         changefile = "";
+        
     }
 
     void FixedUpdate()
     {
-        if (!running) return;
+        if (!running)
+        {
+            //AudioPlay();
+            return;
+        }
         if (flag)
         {
             if (audioSource.time >= audioClip.length - 0.5f)
@@ -57,7 +60,7 @@ public class AudioPlayer : MonoBehaviour
         }
     }
 
-    //=====================随着音乐播放不断更新滑动条
+    //随着音乐播放不断更新滑动条
     private void UpdateSliderValue()
     {
         currentHour = (int)audioSource.time / 3600;
@@ -66,14 +69,9 @@ public class AudioPlayer : MonoBehaviour
         audioTimeSlider.value = audioSource.time / audioClip.length;
     }
 
-    //================通过滑动条改变音乐时间
-    private void SetAudioTimeBySliderValueChange()
-    {
-        audioSource.time = audioTimeSlider.value * audioSource.clip.length;
-    }
-
     public float getAudioSourceTime()
     {
+        if (!running) return 0;
         if (flag)
         {
             return audioSource.time;
@@ -98,15 +96,7 @@ public class AudioPlayer : MonoBehaviour
         audioSource.Stop();
     }
 
-    void sstart()
-    {
-        ////================= 事件监听
-        clipHour = (int)audioSource.clip.length / 3600;
-        clipMinute = (int)(audioSource.clip.length - clipHour * 3600) / 60;
-        clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
-        changefile = "";
-    }
-
+    //加载音乐
     private IEnumerator LoadMusic(string filepath)
     {
         filepath = "file:///" + filepath;
