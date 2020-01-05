@@ -564,7 +564,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: 147}
+  m_AnchoredPosition: {x: 7, y: 9}
   m_SizeDelta: {x: 800, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &560039038
@@ -856,8 +856,9 @@ MonoBehaviour:
   plane: {fileID: 595381970}
   enemy: {fileID: 1903479452}
   roadBlock: {fileID: 995370101}
-  loadMessage: {fileID: 1474832410}
+  player: {fileID: 1200651341}
   audio: {fileID: 2106368983}
+  loadMessage: {fileID: 1474832410}
 --- !u!212 &702267564
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1405,7 +1406,6 @@ MonoBehaviour:
   defaultX: 2.49
   lowPositionY: -0.18
   highPositionY: 2.78
-  kind: 0
   floatingTime: 0.7
   atkingTime: 0.3
   downTime: 0.7
@@ -1604,10 +1604,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  T: {fileID: 0}
-  Carton: {fileID: 1200651341}
-  cam: {fileID: 519420031}
+  camera: {fileID: 519420031}
   audio: {fileID: 2106368983}
+  carton: {fileID: 1200651341}
 --- !u!1 &1474832409
 GameObject:
   m_ObjectHideFlags: 0

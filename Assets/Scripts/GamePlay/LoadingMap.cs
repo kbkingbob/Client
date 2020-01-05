@@ -5,19 +5,21 @@ using System.IO;
 
 class LoadingMap : MonoBehaviour
 {
-    public float planeDefualY;
-    public float enemyDefualY;
-    public float roadBlockDefualY;
+    public float planeDefualY;          //飞机高度
+    public float enemyDefualY;          //敌人高度
+    public float roadBlockDefualY;      //路障高度
     public GameObject obj;
     public GameObject plane;
     public GameObject enemy;
     public GameObject roadBlock;
     public PlayerController player;
-    public LoadMessage loadMessage;
     public AudioPlayer audio;
+    public LoadMessage loadMessage;
+
     private StreamReader map;
     private string cur;
     private string[] split;
+
     private void Start()
     {
         string url = loadMessage.url;
@@ -51,7 +53,6 @@ class LoadingMap : MonoBehaviour
             obj.transform.position = new Vector3(x, y, z);
             cur = map.ReadLine();
         }
-        //map.Close();
         GameObject.Find("Panel").GetComponent<AudioPlayer>().enabled = true;
     }
 
@@ -80,7 +81,10 @@ class LoadingMap : MonoBehaviour
         }
         obj.transform.position = new Vector3(x, y, z);
         cur = map.ReadLine();
-        if(cur != null)
+        //Debug.Log(cur);
+        if (cur != null)
             split = cur.Split(new char[] { ' ', '\n' });
+        else
+            map.Close();
     }
 }
