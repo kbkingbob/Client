@@ -61,36 +61,145 @@ public class PlayerController : MonoBehaviour
         //transitionPosition = new Vector2(defaultX, transitionPositionY);
         rbody.MovePosition(new Vector2(defaultX, lowPositionY));
     }
+    //public float goodAreaUpperBound,goodAreaLowerBound,
+    //             perfectAreaUpperBound,perfectAreaLowerBound;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    //private void gradeJudge(bool state,Collider2D other)
+    //{
+    //    float roleX, otherX, offsetX;
+    //        if (true)
+    //        {
+    //        Debug.Log("in");
+    //            roleX = transform.position.x;
+    //            otherX = other.transform.position.x;
+    //            offsetX = otherX - roleX;
+    //        Debug.Log("rolex :" + roleX + "  otherX:" + otherX + "  offsetX:" + offsetX);
+    //            if (offsetX > goodAreaLowerBound && offsetX <= goodAreaUpperBound)
+    //            {
+    //                Debug.Log("good");
+    //                other.GetComponent<Collider2D>().enabled = false;
+    //            }
+    //            if (offsetX > perfectAreaLowerBound && offsetX <= perfectAreaUpperBound)
+    //            {
+    //                Debug.Log("perfect");
+    //                other.GetComponent<Collider2D>().enabled = false;
+    //            }
+    //        }   
+    //}
+    private bool listenKey(KeyCode x)
     {
-        if (other.tag == "Fire")
+        if (Input.GetKeyDown(x))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "downObstacleGoodArea")
+        {
+            if (listenKey(KeyCode.S))
+            {
+                Debug.Log("good");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                other.gameObject.transform.parent.gameObject.transform.Find("perfectCollider").GetComponent<Collider2D>().enabled = false;
+            }
+        }
+        if (other.tag == "downObstaclePerfectArea")
+        {
+            if (listenKey(KeyCode.S))
+            {
+                Debug.Log("perfect");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+            }
+        }
+        if (other.tag == "jumpObstacleGoodArea")
+        {
+            if (listenKey(KeyCode.W))
+            {
+                Debug.Log("good");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                other.gameObject.transform.parent.gameObject.transform.Find("perfectCollider").GetComponent<Collider2D>().enabled = false;
+            }
+        }
+        if (other.tag == "jumpObstaclePerfectArea")
+        {
+            if (listenKey(KeyCode.W))
+            {
+                Debug.Log("perfect");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+            }
+        }
+        if (other.tag == "attackEnemyGoodArea")
+        {
+            if (listenKey(KeyCode.J))
+            {
+                Debug.Log("good");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                other.gameObject.transform.parent.gameObject.transform.Find("perfectCollider").GetComponent<Collider2D>().enabled = false;
+            }
+        }
+        if (other.tag == "attackEnemyPerfectArea")
+        {
+            if (listenKey(KeyCode.J))
+            {
+                Debug.Log("perfect");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+            }
+        }
+
+
+        ////Debug.Log("onTriggrtEnter tag:"+other.tag);
+        //if (other.tag == "downObstacle")
+        //{
+        //    gradeJudge(down, other);
+        //}
+        //if (other.tag == "jumpObstacle")
+        //{
+        //    gradeJudge(jump, other);
+        //}
+        //if (other.tag == "Enemy")
+        //{
+        //    gradeJudge(atking, other);
+        //}
+
+        //if (other.tag == "Fire")
+        //{
+        //    damaged = true;
+        //    GameController.instance.UpdataAndDisplayHp(-1);
+        //}
+        //else if (other.tag == "Food")
+        //{
+        //    GameController.instance.UpdataAndDisplaySc(10);
+        //}
+        //else if (other.tag == "Enemy")
+        //{
+        //    if (atking == false && sp_atking == false)
+        //    {
+        //        damaged = true;
+        //        GameController.instance.UpdataAndDisplayHp(-1);
+        //    }
+        //}
+        //else if (other.tag == "Goods")
+        //{
+        //    if (atking || sp_atking)
+        //    {
+        //        GameController.instance.UpdataAndDisplaySc(10);
+        //    }
+
+
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "downObstaclePerfectArea" || other.tag== "jumpObstaclePerfectArea" || other.tag == "attackEnemyPerfectArea")
         {
             damaged = true;
-            GameController.instance.UpdataAndDisplayHp(-1);
+            //GameController.instance.UpdataAndDisplayHp(-1); 
+            Debug.Log("HP--");
         }
-        else if (other.tag == "Food")
-        {
-            GameController.instance.UpdataAndDisplaySc(10);
-        }
-        else if (other.tag == "Enemy")
-        {
-            if (atking == false && sp_atking == false)
-            {
-                damaged = true;
-                GameController.instance.UpdataAndDisplayHp(-1);
-            }
-        }
-        else if (other.tag == "Goods")
-        {
-            if (atking || sp_atking)
-            {
-                GameController.instance.UpdataAndDisplaySc(10);
-            }
 
-        }
     }
-
     public void setRbodyX(float x)
     {
         if (jump)
@@ -104,12 +213,10 @@ public class PlayerController : MonoBehaviour
         rbody.MovePosition(Position);
         //Debug.Log(rbody.position.x);
     }
-
     public float getRbodyX()
     {
         return rbody.position.x;
     }
-
     // Update is called once per frame
     private void CloseAllStatus()
     {
@@ -118,12 +225,11 @@ public class PlayerController : MonoBehaviour
         down = false;
         atkingTimer = downTimer = 0;
     }
-
     private void Control()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            Debug.Log("W");
+            //Debug.Log("W");
             CloseAllStatus();
             jump = true;
             floatingTimer = floatingTime;
@@ -132,14 +238,14 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("J");
+            //Debug.Log("J");
             CloseAllStatus();
             atking = true;
             atkingTimer = atkingTime;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            Debug.Log("S");
+            //Debug.Log("S");
             CloseAllStatus();
             down = true;
             downTimer = downTime;
@@ -148,7 +254,6 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-
     private void ChangeToDown()
     {
         if (downTimer <= 0)
@@ -156,14 +261,14 @@ public class PlayerController : MonoBehaviour
         if (down)
         {
             kind = (int)STATUS.DOWN;
-            Vector2 PP = new Vector2(0.0001f, 0.0001f);
-            mybody.size = PP;
+            //Vector2 PP = new Vector2(0.0001f, 0.0001f);
+            //mybody.size = PP;
         }
         else
         {
             downTimer = 0;
-            Vector2 PP = new Vector2(1, 1);
-            mybody.size = PP;
+            //Vector2 PP = new Vector2(1, 1);
+            //mybody.size = PP;
         }
     }
     private void ChangeToAttack()
@@ -211,7 +316,6 @@ public class PlayerController : MonoBehaviour
         if(jump)
             floatingTimer -= Time.deltaTime;
     }
-
     private void FixedUpdate()
     {
         Control();

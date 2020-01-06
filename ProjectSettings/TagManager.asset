@@ -5,6 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Block
+  - Fire
+  - Enemy
+  - downObstacle
+  - jumpObstacle
+  - downObstacleGoodArea
+  - downObstaclePerfectArea
+  - jumpObstacleGoodArea
+  - jumpObstaclePerfectArea
+  - attackEnemyPerfectArea
+  - attackEnemyGoodArea
   layers:
   - Default
   - TransparentFX
