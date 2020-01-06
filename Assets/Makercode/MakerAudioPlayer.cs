@@ -2,20 +2,20 @@
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
-//using NAudio;
-//using NAudio.Wave;
 using System.IO;
-using System.Threading;
 
 [RequireComponent(typeof(AudioSource))]
 
-public class AudioPlayer : MonoBehaviour
+public class MakerAudioPlayer : MonoBehaviour
 {
     //==================组件
     public AudioClip audioClip;
-    //public Text audioTime;
-    //public Text audioName;
+    public Text audioTime;
+    public Text audioName;
     public Slider audioTimeSlider;
+    public Button pauseButton;
+    public Button playButton;
+    public Button stopButton;
     public AudioSource audioSource;
     public string changefile;
     //====================当前时间/总时间
@@ -27,33 +27,55 @@ public class AudioPlayer : MonoBehaviour
     private int clipMinute;
     private int clipSecond;
     private bool flag = false;
-    private bool running = false;
-    int cnt = 0;
+    private int cnt = 0;
 
-    public void Start()
+    void Start()
     {
+        changefile = "";
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = audioClip;
+        audioName.text = audioClip.name;
         clipHour = (int)audioSource.clip.length / 3600;
         clipMinute = (int)(audioSource.clip.length - clipHour * 3600) / 60;
         clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
-
-        StartCoroutine(LoadMusic(changefile));
-        sstart();
-        changefile = "";
+        //================= 事件监听
+        audioTimeSlider.onValueChanged.AddListener(
+            (delegate
+            {
+                SetAudioTimeBySliderValueChange();
+            }
+            ));
+        pauseButton.onClick.AddListener(
+            (delegate
+            {
+                AudioPause();
+            }
+            ));
+        playButton.onClick.AddListener(
+            (delegate
+            {
+                AudioPlay();
+            }
+            ));
+        stopButton.onClick.AddListener(
+            (delegate
+            {
+                AudioStop();
+            }
+            ));
     }
-
-    void FixedUpdate()
+    void Update()
     {
-        if (!running) return;
         if (flag)
         {
-            if (audioSource.time >= audioClip.length - 0.5f)
-            {
-                flag = false;
-            }
-            else
-                UpdateSliderValue();
+            UpdateSliderValue();
+            audioName.text = audioSource.clip.name;
+        }
+        if (changefile.Length != 0)
+        {
+            StartCoroutine(LoadMusic(changefile));
+            flag = true;
+            sstart();
         }
     }
 
@@ -63,54 +85,46 @@ public class AudioPlayer : MonoBehaviour
         currentHour = (int)audioSource.time / 3600;
         currentMinute = (int)( audioSource.time - currentHour * 3600 ) / 60;
         currentSecond = (int)( audioSource.time - currentHour * 3600 - currentMinute * 60 );
+        audioTime.text = string.Format("{0:D2}:{1:D2}:{2:D2} / {3:D2}:{4:D2}:{5:D2}",
+            currentHour, currentMinute, currentSecond, clipHour, clipMinute, clipSecond);
         audioTimeSlider.value = audioSource.time / audioClip.length;
     }
-
     //================通过滑动条改变音乐时间
     private void SetAudioTimeBySliderValueChange()
     {
         audioSource.time = audioTimeSlider.value * audioSource.clip.length;
+        GameObject obj = GameObject.Find("Grid");
+        float y = obj.transform.localPosition.y;
+        float z = obj.transform.localPosition.z;
+        float x = audioSource.time * (float)10.0;
+        obj.transform.position = new Vector3(x, y, z);
     }
-
-    public float getAudioSourceTime()
-    {
-        if (flag)
-        {
-            return audioSource.time;
-        }
-        return -1;
-    }
-
-    public void AudioPause()
+    private void AudioPause()
     {
         audioSource.Pause();
     }
     
-    public void AudioPlay()
+    private void AudioPlay()
     {
-        running = true;
-        flag = true;
         audioSource.Play();
     }
 
-    public void AudioStop()
+    private void AudioStop()
     {
         audioSource.Stop();
     }
-
     void sstart()
     {
-        ////================= 事件监听
+        //audioSource = GetComponent<AudioSource>();
+        //audioSource.clip = audioClip;
         clipHour = (int)audioSource.clip.length / 3600;
         clipMinute = (int)(audioSource.clip.length - clipHour * 3600) / 60;
         clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
         changefile = "";
     }
-
     private IEnumerator LoadMusic(string filepath)
     {
         filepath = "file:///" + filepath;
-        Debug.Log(filepath);
         using (var uwr = UnityWebRequestMultimedia.GetAudioClip(filepath, AudioType.WAV))
         {
             yield return uwr.SendWebRequest();
@@ -121,7 +135,7 @@ public class AudioPlayer : MonoBehaviour
             else
             {
                 AudioClip clip = DownloadHandlerAudioClip.GetContent(uwr);
-                Debug.Log(clip);
+                // use audio clip
                 audioClip = clip;
                 audioSource.clip = clip;
             }
