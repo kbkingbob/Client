@@ -29,6 +29,12 @@ public class PlayerController : MonoBehaviour
     private Color Write = new Color(1, 1, 1, 1);
     private float flashSpeed = 5.0f;
 
+    public int HP = 100;
+    private int onceDamag = 10;
+    public int SC = 0;
+    private int onceScore = 200;
+    public int combo = 0;
+
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
@@ -37,11 +43,118 @@ public class PlayerController : MonoBehaviour
         rbody.MovePosition(new Vector2(defaultX, lowPositionY));
     }
 
+    private void isPrefect()
+    {
+        HP = Mathf.Min(100, HP + 1);
+        combo++;
+        SC += onceScore;
+    }
+
+    private void isGood()
+    {
+        SC += onceScore;
+    }
+
+    private void isMiss()
+    {
+        HP -= onceDamag;
+        combo = 0;
+        damaged = true;
+    }
+
+    private bool listenKey(KeyCode x)
+    {
+        if (Input.GetKeyDown(x))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "downObstacleGoodArea")
+        {
+            if (listenKey(KeyCode.S))
+            {
+                Debug.Log("good");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                other.gameObject.transform.parent.gameObject.transform.Find("perfectCollider").GetComponent<Collider2D>().enabled = false;
+                Destroy(other.gameObject.transform.parent.gameObject);
+                isGood();
+            }
+        }
+        if (other.tag == "downObstaclePerfectArea")
+        {
+            if (listenKey(KeyCode.S))
+            {
+                Debug.Log("perfect");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                Destroy(other.gameObject.transform.parent.gameObject);
+                isPrefect();
+            }
+        }
+        if (other.tag == "jumpObstacleGoodArea")
+        {
+            if (listenKey(KeyCode.W))
+            {
+                Debug.Log("good");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                other.gameObject.transform.parent.gameObject.transform.Find("perfectCollider").GetComponent<Collider2D>().enabled = false;
+                Destroy(other.gameObject.transform.parent.gameObject);
+                isGood();
+            }
+        }
+        if (other.tag == "jumpObstaclePerfectArea")
+        {
+            if (listenKey(KeyCode.W))
+            {
+                Debug.Log("perfect");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                Destroy(other.gameObject.transform.parent.gameObject);
+                isPrefect();
+            }
+        }
+        if (other.tag == "attackEnemyGoodArea")
+        {
+            if (listenKey(KeyCode.J))
+            {
+                Debug.Log("good");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                other.gameObject.transform.parent.gameObject.transform.Find("perfectCollider").GetComponent<Collider2D>().enabled = false;
+                Destroy(other.gameObject.transform.parent.gameObject);
+                isGood();
+            }
+        }
+        if (other.tag == "attackEnemyPerfectArea")
+        {
+            if (listenKey(KeyCode.J))
+            {
+                Debug.Log("perfect");
+                other.gameObject.GetComponent<Collider2D>().enabled = false;
+                Destroy(other.gameObject.transform.parent.gameObject);
+                isPrefect();
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "downObstaclePerfectArea" || other.tag == "jumpObstaclePerfectArea" || other.tag == "attackEnemyPerfectArea")
+        {
+            //damaged = true;
+            //GameController.instance.UpdataAndDisplayHp(-1); 
+            Debug.Log("MISS");
+            Destroy(other.gameObject.transform.parent.gameObject);
+            isMiss();
+        }
+
+    }
+
     public Vector2 getPosition()
     {
         return rbody.position;
     }
-
     public void setRbodyX(float x)
     {
         if (kind == STATUS.JUMP)
@@ -54,7 +167,6 @@ public class PlayerController : MonoBehaviour
         }
         rbody.MovePosition(Position);
     }
-
     public float getRbodyX()
     {
         return rbody.position.x;
@@ -65,7 +177,6 @@ public class PlayerController : MonoBehaviour
         kind = STATUS.RUN;
         atkingTimer = downTimer = floatingTimer = 0;
     }
-
     private void Control()
     {
         if (Input.GetKeyDown(KeyCode.W))

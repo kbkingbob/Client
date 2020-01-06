@@ -46,7 +46,7 @@ public class AudioPlayer : MonoBehaviour
     {
         if (!running)
         {
-            //AudioPlay();
+            AudioPlay();
             return;
         }
         if (flag)

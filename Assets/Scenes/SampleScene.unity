@@ -1062,7 +1062,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyAll
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1410194360, guid: 90a8778b9fc3d4a2eaafe874357d9083, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 90a8778b9fc3d4a2eaafe874357d9083, type: 3}
 --- !u!1 &995370101 stripped
 GameObject:
@@ -1421,13 +1422,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7545b4b6e8de94937bc4e67b69181737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
   defaultX: 2.49
   lowPositionY: -0.18
   highPositionY: 2.78
   floatingTime: 0.7
   atkingTime: 0.3
   downTime: 0.7
+  kind: 0
+  floatingTimer: 0
+  atkingTimer: 0
+  downTimer: 0
+  HP: 100
+  SC: 0
+  combo: 0
 --- !u!1 &1314769887
 GameObject:
   m_ObjectHideFlags: 0
@@ -2281,7 +2288,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6148504117740597308, guid: bca9c4da47a2546228f659d2c3fe88c6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bca9c4da47a2546228f659d2c3fe88c6, type: 3}
 --- !u!1001 &3728299660039187864
 PrefabInstance:
@@ -2366,5 +2374,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 584117339, guid: e892e616900a145b98b8505d25d43536, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e892e616900a145b98b8505d25d43536, type: 3}
