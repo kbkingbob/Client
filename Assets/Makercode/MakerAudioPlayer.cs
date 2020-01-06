@@ -69,7 +69,6 @@ public class MakerAudioPlayer : MonoBehaviour
         if (flag)
         {
             UpdateSliderValue();
-            audioName.text = audioSource.clip.name;
         }
         if (changefile.Length != 0)
         {
@@ -120,6 +119,9 @@ public class MakerAudioPlayer : MonoBehaviour
         clipHour = (int)audioSource.clip.length / 3600;
         clipMinute = (int)(audioSource.clip.length - clipHour * 3600) / 60;
         clipSecond = (int)(audioSource.clip.length - clipHour * 3600 - clipMinute * 60);
+        string[] Split = changefile.Split(new char[] { '\\','/'});
+        int len = Split.Length;
+        audioName.text = Split[len - 1].Replace(".wav", "");
         changefile = "";
     }
     private IEnumerator LoadMusic(string filepath)

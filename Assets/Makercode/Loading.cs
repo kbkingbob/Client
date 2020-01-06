@@ -25,7 +25,7 @@ public class Loading : MonoBehaviour
                 Destroy(item);
         }
         Text names = GameObject.Find("AudioPanel").GetComponent<MakerAudioPlayer>().audioName;
-        StreamReader F = new StreamReader("E:\\github\\Client\\" + names.text + ".txt");
+        StreamReader F = new StreamReader("D:\\github\\master\\New\\Client\\" + names.text + ".txt");
         string str = F.ReadLine();
         while(str != null)
         {
