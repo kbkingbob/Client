@@ -45,9 +45,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: cc7653234f0a046429ca6ebe9cf3c4fb, type: 2}
   mSprites:
+  - name: 0618e491bbe948818f96ffbfefbbfa80
+    x: 3415
+    y: 1927
+    width: 390
+    height: 121
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 9
+    paddingBottom: 0
   - name: 157793783728525
-    x: 807
-    y: 848
+    x: 3415
+    y: 1677
     width: 349
     height: 47
     borderLeft: 0
@@ -59,8 +72,8 @@ MonoBehaviour:
     paddingTop: 38
     paddingBottom: 37
   - name: cancel
-    x: 1011
-    y: 801
+    x: 3955
+    y: 1757
     width: 100
     height: 46
     borderLeft: 0
@@ -72,8 +85,8 @@ MonoBehaviour:
     paddingTop: 39
     paddingBottom: 37
   - name: score
-    x: 807
-    y: 800
+    x: 3928
+    y: 1916
     width: 122
     height: 47
     borderLeft: 0
@@ -85,8 +98,8 @@ MonoBehaviour:
     paddingTop: 38
     paddingBottom: 37
   - name: submit
-    x: 807
-    y: 752
+    x: 3955
+    y: 1804
     width: 101
     height: 47
     borderLeft: 0
@@ -98,7 +111,7 @@ MonoBehaviour:
     paddingTop: 38
     paddingBottom: 37
   - name: timg
-    x: 0
+    x: 1366
     y: 896
     width: 2048
     height: 1152
@@ -111,8 +124,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: v2_q0yrs5
-    x: 930
-    y: 784
+    x: 3928
+    y: 1852
     width: 80
     height: 63
     borderLeft: 0
@@ -124,8 +137,8 @@ MonoBehaviour:
     paddingTop: 35
     paddingBottom: 30
   - name: v2_q0ztls
-    x: 1157
-    y: 796
+    x: 3833
+    y: 1864
     width: 94
     height: 99
     borderLeft: 0
@@ -137,8 +150,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: v2_q0ztwi
-    x: 151
-    y: 712
+    x: 3806
+    y: 1964
     width: 227
     height: 84
     borderLeft: 0
@@ -150,8 +163,8 @@ MonoBehaviour:
     paddingTop: 7
     paddingBottom: 0
   - name: v2_q0zvfv
-    x: 0
-    y: 650
+    x: 3804
+    y: 1681
     width: 150
     height: 146
     borderLeft: 0
@@ -163,8 +176,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "\u56FE\u5C42c"
-    x: 0
-    y: 797
+    x: 3415
+    y: 1828
     width: 417
     height: 98
     borderLeft: 0
@@ -176,8 +189,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "\u56FE\u5C42r"
-    x: 418
-    y: 793
+    x: 3415
+    y: 1725
     width: 388
     height: 102
     borderLeft: 0
@@ -189,8 +202,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "\u624B\u673A\u6E38\u620F\u89E6\u5C4F\u6309\u94AE\u56FE\u6807-onscreenControls-\u5E73\u7684_\u7231\u7ED9\u7F51_aigei_com"
-    x: 1011
-    y: 752
+    x: 4034
+    y: 2000
     width: 48
     height: 48
     borderLeft: 0
@@ -202,10 +215,23 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "\u624B\u673A\u6E38\u620F\u89E6\u5C4F\u6309\u94AE\u56FE\u6807-onscreenControls-\u5E73\u7684_\u7231\u7ED9\u7F51_aigei_com(1)"
-    x: 1060
-    y: 752
+    x: 4009
+    y: 1867
     width: 48
     height: 48
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "\u89C6\u89C9\u56FE"
+    x: 0
+    y: 0
+    width: 1365
+    height: 2048
     borderLeft: 0
     borderRight: 0
     borderTop: 0

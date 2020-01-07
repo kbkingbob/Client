@@ -51,6 +51,7 @@ class LoadingMap : MonoBehaviour
                 y = enemyDefualY;
             }
             obj.transform.position = new Vector3(x, y, z);
+            //Destroy(obj, 5);
             cur = map.ReadLine();
         }
         GameObject.Find("Panel").GetComponent<AudioPlayer>().enabled = true;
@@ -80,6 +81,7 @@ class LoadingMap : MonoBehaviour
             y = enemyDefualY;
         }
         obj.transform.position = new Vector3(x, y, z);
+        //Destroy(obj, 5);
         cur = map.ReadLine();
         //Debug.Log(cur);
         if (cur != null)
