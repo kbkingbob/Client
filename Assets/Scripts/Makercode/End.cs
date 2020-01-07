@@ -18,8 +18,12 @@ public class End : MonoBehaviour
     {
         
     }
+    public TweenScale load;
+    public TweenColor mengban;
     public void Button()
     {
+        load.PlayForward();
+        mengban.PlayForward();
         GameObject[] sno1;
         string txt = "";
         Text names = GameObject.Find("AudioPanel").GetComponent<MakerAudioPlayer>().audioName;

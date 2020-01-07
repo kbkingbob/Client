@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class stopui : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class stopui : MonoBehaviour
     public UILabel hit;
     public TweenScale hittween;
     public GameObject stoppanel;
+    public TweenColor die;
+    public GameObject cun;
+    public GameObject perfect;
+    public GameObject good;
+    public GameObject miss;
     //bool flag = false;
     // Start is called before the first frame update
     void Start()
@@ -26,11 +32,17 @@ public class stopui : MonoBehaviour
     }
 
     // Update is called once per frame
+    int ttt = 0;
     void Update()
     {
         showhit();
         showsc();
         showHP();
+        if (ttt == 100)
+        {
+            showperfect();
+            ttt = 0;
+        }ttt++;
         /*if (flag == true)
         {
             play.pause();
@@ -80,6 +92,8 @@ public class stopui : MonoBehaviour
     }
     public void skip()
     {
+        DontDestroyOnLoad(cun);
+        cun.GetComponent<Text>().text = play.getSC().ToString(); 
         change.PlayForward();
     }
     public void showsc()
@@ -101,5 +115,34 @@ public class stopui : MonoBehaviour
     public void showHP()
     {
         hpslider.value = (float)(play.getHP() / 100.0);
+        if (hpslider.value == 0f)
+        {
+            die.PlayForward();
+            play.pause();
+        }
+    }
+    public void showperfect()
+    {
+        perfect.SetActive(true);
+        good.SetActive(false);
+        miss.SetActive(false);
+    }
+    public void showgood()
+    {
+        perfect.SetActive(false);
+        good.SetActive(true);
+        miss.SetActive(false);
+    }
+    public void showmiss()
+    {
+        perfect.SetActive(false);
+        good.SetActive(false);
+        miss.SetActive(true);
+    }
+    public void disable()
+    {
+        perfect.SetActive(false);
+        good.SetActive(false);
+        miss.SetActive(false);
     }
 }

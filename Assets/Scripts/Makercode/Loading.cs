@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 public class Loading : MonoBehaviour
 {
-    public GameObject obj, prefab1, prefab2, prefab3;
+    GameObject obj, prefab1, prefab2, prefab3;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +15,17 @@ public class Loading : MonoBehaviour
     void Update()
     {
         
+    }
+    public TweenScale load;
+    public GameObject success, fail;
+    public TweenColor mengban;
+    public bool judgetrue()
+    {
+        return true;
+    }
+    public bool judgefalse()
+    {
+        return false;
     }
     public void Button()
     {
@@ -27,7 +38,19 @@ public class Loading : MonoBehaviour
         Text names = GameObject.Find("AudioPanel").GetComponent<MakerAudioPlayer>().audioName;
         string dir = "./song/" + names.text;
         if (!Directory.Exists(dir))//如果不存在就
+        {
+            success.SetActive(false);
+            fail.SetActive(true);
+            mengban.PlayForward();
+            //judgetrue();
+            load.PlayForward();
             return;
+        }
+        //judgefalse();
+        success.SetActive(true);
+        fail.SetActive(false);
+        mengban.PlayForward();
+        load.PlayForward();
         StreamReader F = new StreamReader(dir + "/" + names.text + ".txt");
         string str = F.ReadLine();
         while(str != null)

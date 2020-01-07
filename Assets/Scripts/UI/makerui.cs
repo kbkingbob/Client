@@ -20,4 +20,11 @@ public class makerui : MonoBehaviour
     {
         color.PlayForward();
     }
+    public TweenColor mengban;
+    public TweenScale loding;
+    public void back()
+    {
+        mengban.PlayReverse();
+        loding.PlayReverse();
+    }
 }

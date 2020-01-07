@@ -46,8 +46,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: cc7653234f0a046429ca6ebe9cf3c4fb, type: 2}
   mSprites:
   - name: 0618e491bbe948818f96ffbfefbbfa80
-    x: 3415
-    y: 1927
+    x: 1829
+    y: 150
     width: 390
     height: 121
     borderLeft: 0
@@ -59,8 +59,8 @@ MonoBehaviour:
     paddingTop: 9
     paddingBottom: 0
   - name: 157793783728525
-    x: 3415
-    y: 1677
+    x: 1470
+    y: 397
     width: 349
     height: 47
     borderLeft: 0
@@ -71,9 +71,22 @@ MonoBehaviour:
     paddingRight: 352
     paddingTop: 38
     paddingBottom: 37
+  - name: 56f36e9e7a35d
+    x: 1366
+    y: 119
+    width: 462
+    height: 152
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: cancel
-    x: 3955
-    y: 1757
+    x: 2301
+    y: 165
     width: 100
     height: 46
     borderLeft: 0
@@ -85,8 +98,8 @@ MonoBehaviour:
     paddingTop: 39
     paddingBottom: 37
   - name: score
-    x: 3928
-    y: 1916
+    x: 2095
+    y: 312
     width: 122
     height: 47
     borderLeft: 0
@@ -98,8 +111,8 @@ MonoBehaviour:
     paddingTop: 38
     paddingBottom: 37
   - name: submit
-    x: 3955
-    y: 1804
+    x: 2301
+    y: 212
     width: 101
     height: 47
     borderLeft: 0
@@ -124,8 +137,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: v2_q0yrs5
-    x: 3928
-    y: 1852
+    x: 2220
+    y: 196
     width: 80
     height: 63
     borderLeft: 0
@@ -137,8 +150,8 @@ MonoBehaviour:
     paddingTop: 35
     paddingBottom: 30
   - name: v2_q0ztls
-    x: 3833
-    y: 1864
+    x: 2220
+    y: 260
     width: 94
     height: 99
     borderLeft: 0
@@ -150,8 +163,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: v2_q0ztwi
-    x: 3806
-    y: 1964
+    x: 2095
+    y: 360
     width: 227
     height: 84
     borderLeft: 0
@@ -163,8 +176,8 @@ MonoBehaviour:
     paddingTop: 7
     paddingBottom: 0
   - name: v2_q0zvfv
-    x: 3804
-    y: 1681
+    x: 2173
+    y: 3
     width: 150
     height: 146
     borderLeft: 0
@@ -176,8 +189,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "\u56FE\u5C42c"
-    x: 3415
-    y: 1828
+    x: 1366
+    y: 20
     width: 417
     height: 98
     borderLeft: 0
@@ -189,8 +202,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "\u56FE\u5C42r"
-    x: 3415
-    y: 1725
+    x: 1784
+    y: 16
     width: 388
     height: 102
     borderLeft: 0
@@ -201,9 +214,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: "\u5F97\u5206"
+    x: 1366
+    y: 395
+    width: 103
+    height: 49
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 27
+    paddingRight: 598
+    paddingTop: 37
+    paddingBottom: 36
   - name: "\u624B\u673A\u6E38\u620F\u89E6\u5C4F\u6309\u94AE\u56FE\u6807-onscreenControls-\u5E73\u7684_\u7231\u7ED9\u7F51_aigei_com"
-    x: 4034
-    y: 2000
+    x: 2043
+    y: 396
     width: 48
     height: 48
     borderLeft: 0
@@ -215,10 +241,23 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "\u624B\u673A\u6E38\u620F\u89E6\u5C4F\u6309\u94AE\u56FE\u6807-onscreenControls-\u5E73\u7684_\u7231\u7ED9\u7F51_aigei_com(1)"
-    x: 4009
-    y: 1867
+    x: 2315
+    y: 311
     width: 48
     height: 48
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "\u80CC\u666F"
+    x: 1366
+    y: 445
+    width: 730
+    height: 450
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -240,6 +279,32 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: "\u8F7D\u5165\u6210\u529F"
+    x: 1366
+    y: 272
+    width: 728
+    height: 122
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "\u8F7D\u5165\u6210\u529F1"
+    x: 1820
+    y: 397
+    width: 222
+    height: 47
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 28
+    paddingRight: 478
+    paddingTop: 41
+    paddingBottom: 34
   mPixelSize: 1
   mReplacement: {fileID: 0}
   mCoordinates: 0
